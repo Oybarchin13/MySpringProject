@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<div
+        th:fragment="sidebar"
+        class="w-64 bg-[#FAF9F6] border-r border-gray-200 fixed left-0 top-20 h-[calc(100vh-80px)] overflow-y-auto">
+    <style>
+        .sidebar-link.active {
+            background: #FDE68A;
+            border-color: #F59E0B !important;
+            box-shadow: 0 1px 4px rgba(245,158,11,0.15);
+        }
+        .sidebar-link.active .sidebar-icon {
+            background: #F59E0B;
+            color: #ffffff;
+        }
+        .sidebar-link.active .sidebar-title { color: #78350F; }
+        .sidebar-link.active .sidebar-desc  { color: #92400E; }
+    </style>
+
+    <nav class="flex flex-col px-4 py-6 space-y-2">
+
+        <a th:href="@{/arizalar}" data-key="arizalar"
+           class="sidebar-link group flex items-start gap-2.5 px-3 py-2.5 rounded-xl border border-transparent transition-all duration-150 hover:bg-gray-50 hover:border-gray-200">
+            <span class="sidebar-icon flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-500 transition-all shrink-0">
+                <i class='bx bx-refresh text-lg'></i>
+            </span>
+            <div>
+                <p class="sidebar-title text-[13px] font-medium text-gray-800 leading-tight mb-0.5">Arizalar</p>
+                <p class="sidebar-desc text-[11px] text-gray-400 leading-snug">Yetib kelgan arizalarni kuzatishingiz mumkin</p>
+            </div>
+        </a>
+
+        <a th:href="@{/yetkazilgan}" data-key="yetkazilgan"
+           class="sidebar-link group flex items-start gap-2.5 px-3 py-2.5 rounded-xl border border-transparent transition-all duration-150 hover:bg-gray-50 hover:border-gray-200">
+            <span class="sidebar-icon flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-500 transition-all shrink-0">
+                <i class='bx bx-check-square text-lg'></i>
+            </span>
+            <div>
+                <p class="sidebar-title text-[13px] font-medium text-gray-800 leading-tight mb-0.5">Yetkazilgan</p>
+                <p class="sidebar-desc text-[11px] text-gray-400 leading-snug">Yetkazilgan taomlar ro'yxati</p>
+            </div>
+        </a>
+
+        <a th:href="@{/statistika}" data-key="statistika"
+           class="sidebar-link group flex items-start gap-2.5 px-3 py-2.5 rounded-xl border border-transparent transition-all duration-150 hover:bg-gray-50 hover:border-gray-200">
+            <span class="sidebar-icon flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-500 transition-all shrink-0">
+                <i class='bx bx-bar-chart-alt-2 text-lg'></i>
+            </span>
+            <div>
+                <p class="sidebar-title text-[13px] font-medium text-gray-800 leading-tight mb-0.5">Statistika</p>
+                <p class="sidebar-desc text-[11px] text-gray-400 leading-snug">Diagrammalar bilan ishlangan statistika</p>
+            </div>
+        </a>
+
+        <a th:href="@{/foods/add}" data-key="qoshish"
+           class="sidebar-link group flex items-start gap-2.5 px-3 py-2.5 rounded-xl border border-transparent transition-all duration-150 hover:bg-gray-50 hover:border-gray-200">
+            <span class="sidebar-icon flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-500 transition-all shrink-0">
+                <i class='bx bx-plus-circle text-lg'></i>
+            </span>
+            <div>
+                <p class="sidebar-title text-[13px] font-medium text-gray-800 leading-tight mb-0.5">Qo'shish</p>
+                <p class="sidebar-desc text-[11px] text-gray-400 leading-snug">Yangi taom qo'shish</p>
+            </div>
+        </a>
+
+        <a th:href="@{/users}" data-key="foydalanuvchilar"
+           class="sidebar-link group flex items-start gap-2.5 px-3 py-2.5 rounded-xl border border-transparent transition-all duration-150 hover:bg-gray-50 hover:border-gray-200">
+            <span class="sidebar-icon flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-500 transition-all shrink-0">
+                <i class='bx bx-user text-lg'></i>
+            </span>
+            <div>
+                <p class="sidebar-title text-[13px] font-medium text-gray-800 leading-tight mb-0.5">Foydalanuvchilar</p>
+                <p class="sidebar-desc text-[11px] text-gray-400 leading-snug">Rollarni biriktirishingiz mumkin</p>
+            </div>
+        </a>
+
+        <a th:href="@{/foods/list}" data-key="menyu"
+           class="sidebar-link group flex items-start gap-2.5 px-3 py-2.5 rounded-xl border border-transparent transition-all duration-150 hover:bg-gray-50 hover:border-gray-200">
+            <span class="sidebar-icon flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-500 transition-all shrink-0">
+                <i class='bx bx-dish text-lg'></i>
+            </span>
+            <div>
+                <p class="sidebar-title text-[13px] font-medium text-gray-800 leading-tight mb-0.5">Menyu</p>
+                <p class="sidebar-desc text-[11px] text-gray-400 leading-snug">Taomlar ro'yxati</p>
+            </div>
+        </a>
+
+    </nav>
+
+    <script>
+        (function () {
+            const links = document.querySelectorAll('.sidebar-link');
+            const path  = window.location.pathname;
+
+            const rules = [
+                { key: 'qoshish',          match: p => p.startsWith('/foods/add') },
+                { key: 'menyu',            match: p => p.startsWith('/foods/list') },
+                { key: 'foydalanuvchilar', match: p => p.startsWith('/users') },
+                { key: 'statistika',       match: p => p.startsWith('/statistika') },
+                { key: 'yetkazilgan',      match: p => p.startsWith('/yetkazilgan') },
+                { key: 'arizalar',         match: p => p === '/' || p.startsWith('/arizalar') },
+            ];
+
+            const active = rules.find(r => r.match(path));
+
+            links.forEach(link => {
+                link.classList.toggle('active', !!(active && link.dataset.key === active.key));
+            });
+        })();
+    </script>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+<div th:replace="~{fragments/header :: top-header}"></div>
+
+<section style="padding-top: 80px" class="hero">
+    <div class="hero-text">
+        <h1>Mazali taomlar<br>har doim yoningizda!</h1>
+        <p>Endi yanada tez va arzonroq yetkazib beramiz</p>
+        <a href="#" class="hero-cta">
+            🛒 &nbsp;Buyurtma berish
+        </a>
+    </div>
+
+    <div class="phone-wrap">
+        <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+                <div class="phone-logo">🍕 FOODSWIFT</div>
+                <div class="phone-badge">DELIVERY</div>
+                <div class="phone-grid">
+                    <div class="phone-item">🍔<p>Burger</p></div>
+                    <div class="phone-item">🍕<p>Pizza</p></div>
+                    <div class="phone-item">🥗<p>Salat</p></div>
+                    <div class="phone-item">🥤<p>Drinks</p></div>
+                </div>
+                <div style="margin-top:10px; background:#1a1a1a; color:#FFD600; border-radius:12px; padding:8px 10px; width:100%; box-sizing:border-box; text-align:center;">
+                    <p style="font-size:10px; font-weight:900; margin:0;">🚚 15-25 daqiqada</p>
+                    <p style="font-size:9px; margin:2px 0 0; color:#ccc; font-weight:600;">Tezkor yetkazish</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div th:replace="~{home/food-menu-home :: menu-section}"></div>
+
+
+</body>
+</html>

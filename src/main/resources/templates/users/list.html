@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>FoodSwift - Foydalanuvchilar</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+
+<div th:replace="~{fragments/navbar :: sidebar}"></div>
+<div th:replace="~{fragments/header :: top-header}"></div>
+
+<div class="flex-1 pl-64  pt-20 flex flex-col">
+
+
+  <div class="p-10 max-w-6xl w-full mx-auto">
+
+    <div th:if="${successMessage}" class="mb-4 p-4 bg-green-100 border border-green-300 text-green-700 rounded-xl shadow-sm" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="mb-4 p-4 bg-red-100 border border-red-300 text-red-700 rounded-xl shadow-sm" th:text="${errorMessage}"></div>
+
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 style="font-family: 'Poppins', sans-serif; font-size: 26px" class="fw-bold tracking-tight">Foydalanuvchilar</h1>
+        <p style="color: #F3AA18" class="text-sm font-bold mt-1">Rollarni biriktirishingiz mumkin</p>
+      </div>
+      <a th:href="@{/users/create}" style="background-color: #FFEC00"
+         class="flex items-center gap-2 px-5 py-2.5 hover:bg-orange-600 text-sm font-bold rounded-xl shadow-sm transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000" viewBox="0 0 24 24">
+          <path d="M3 13h8v8h2v-8h8v-2h-8V3h-2v8H3z"></path>
+        </svg>
+        <span>Yangi qo'shish</span>
+      </a>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      <table class="min-w-full text-left border-collapse">
+        <thead>
+        <tr class="border-b border-gray-100 text-gray-400 text-xs font-bold uppercase tracking-wider bg-gray-50/50">
+          <th class="px-6 py-4 w-16">#</th>
+          <th class="px-6 py-4">To'liq ismi</th>
+          <th class="px-6 py-4">Telefon raqami</th>
+          <th class="px-6 py-4">Roli</th>
+          <th class="px-6 py-4 text-right w-32">Amallar</th>
+        </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 text-sm text-gray-800">
+        <tr th:each="user, iter : ${users}" class="hover:bg-gray-50/70 transition-colors">
+          <td class="px-6 py-4 font-medium text-gray-400" th:text="${iter.index + 1 + (currentPage * size)}">1</td>
+          <td class="px-6 py-4 font-bold text-gray-900">
+            <a th:href="@{/users/{id}(id=${user.id})}" th:text="${user.fullName}" class="hover:text-orange-500 transition-colors">Abdulaziz Ochilov</a>
+          </td>
+          <td class="px-6 py-4 text-gray-500 font-medium" th:text="${user.phoneNumber}">+998 97 888 10 27</td>
+          <td class="px-6 py-4">
+  <span th:if="${user.role == null}" class="px-2.5 py-1 text-xs font-bold bg-gray-100 text-gray-400 rounded-xl">
+    ROL YO'Q
+  </span>
+
+            <span th:if="${user.role?.name() == 'ADMIN'}" class="px-2.5 py-1 text-xs font-bold bg-red-100 text-red-700 rounded-xl">
+    ADMIN
+  </span>
+
+            <span th:if="${user.role?.name() == 'YETKAZUVCHI'}" class="px-2.5 py-1 text-xs font-bold bg-orange-100 text-orange-700 rounded-xl">
+    YETKAZUVCHI
+  </span>
+
+            <span th:if="${user.role?.name() == 'FOYDALANUVCHI'}" class="px-2.5 py-1 text-xs font-bold bg-green-100 text-green-700 rounded-xl">
+    FOYDALANUVCHI
+  </span>
+          </td>
+          <td class="px-6 py-4 text-right space-x-3">
+            <a th:href="@{/users/{id}/edit(id=${user.id})}" class="text-gray-400 hover:text-blue-500 text-base inline-block transition-transform hover:scale-110">
+              <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    fill="#2F2F2F" viewBox="0 0 24 24" >
+                <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                <path d="M17.87 2.99a2 2 0 0 0-2.82 0l-7.96 7.84c-.14.13-.23.3-.27.49L5.8 15.76 4 18.01h2.83l1.14-1.13 3.59-.83c.18-.04.35-.13.48-.26l7.95-7.83c.38-.38.59-.88.6-1.42 0-.54-.21-1.04-.59-1.42L17.88 3Zm.71 3.53-7.24 7.13-2.12-2.12 7.24-7.13zM4 20h16v2H4z"></path>
+              </svg>
+            </a >
+            <form th:action="@{/users/{id}/delete(id=${user.id})}" method="POST" class="inline-block" onsubmit="return confirm('Haqiqatan ham ushbu foydalanuvchini o\'chirmoqchimisiz?');">
+              <button type="submit" class="text-red-400 hover:text-red-600 text-base transition-transform hover:scale-110">
+                <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                      fill="#DF3535" viewBox="0 0 24 24" >
+                  <path d="M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z"></path><path d="M9 10h2v8H9zm4 0h2v8h-2z"></path>
+                </svg>
+              </button>
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="bg-white px-6 py-4 border-t border-gray-100 flex justify-between items-center text-sm font-black text-gray-900">
+        <span>Jami</span>
+        <span th:text="${totalItems} + ' ta akkaunt'">4 ta akkaunt</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+</body>
+</html>
