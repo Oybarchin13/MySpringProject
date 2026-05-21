@@ -1,60 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <title>FoodSwift - Tahrirlash</title>
-  <link rel="stylesheet" href="/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <title>FoodSwift – Foydalanuvchini Tahrirlash</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen flex">
+<body>
+
 <div th:replace="~{fragments/navbar :: sidebar}"></div>
-<div class="flex-1 pl-64 flex flex-col">
-  <div th:replace="~{fragments/header :: top-header}"></div>
+<div th:replace="~{fragments/header :: top-header}"></div>
 
-  <div class="p-10 pt-20">
-    <div class="max-w-md mx-auto bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
-      <h2 class="text-2xl font-extrabold text-gray-900 mb-6">Ma'lumotlarni yangilash</h2>
+<main class="fs-main--admin">
+    <div class="fs-page">
+        <div style="max-width:480px;">
 
-      <!-- Xatolik xabarini ko'rsatish bloki (FlashAttribute uchun) -->
-      <div th:if="${errorMessage}" class="mb-4 p-4 bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl flex items-center space-x-2">
-        <i class='bx bx-error-circle text-lg'></i>
-        <span th:text="${errorMessage}">Xatolik yuz berdi.</span>
-      </div>
+            <div class="fs-page-header" style="margin-bottom:24px;">
+                <div>
+                    <a th:href="@{/users}" class="fs-back-link">
+                        <i class='bx bx-left-arrow-alt'></i> Foydalanuvchilarga qaytish
+                    </a>
+                    <h1 class="fs-page-title">Ma'lumotlarni yangilash</h1>
+                    <p class="fs-page-sub">Foydalanuvchi profili va rolini tahrirlang</p>
+                </div>
+            </div>
 
-      <!-- th:action qismida id sifatida formadagi obyektdan yoki controller'dan kelgan id dan foydalanamiz -->
-      <form th:action="@{/users/{id}/edit(id=${id})}" th:object="${userSaveDto}" method="POST" class="space-y-4">
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">To'liq ismi</label>
-          <input type="text" th:field="*{fullName}" required class="mt-1 block w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm">
+            <div th:if="${errorMessage}" class="fs-alert fs-alert--error">
+                <i class='bx bx-error-circle'></i>
+                <span th:text="${errorMessage}">Xatolik yuz berdi.</span>
+            </div>
+
+            <div class="fs-panel">
+                <form th:action="@{/users/{id}/edit(id=${id})}" th:object="${userSaveDto}" method="POST">
+                    <div class="fs-panel__body">
+                        <div class="fs-field">
+                            <label class="fs-label">To'liq ismi</label>
+                            <input type="text" th:field="*{fullName}" class="fs-input" required>
+                        </div>
+                        <div class="fs-field">
+                            <label class="fs-label">Telefon raqami</label>
+                            <input type="text" th:field="*{phoneNumber}" class="fs-input" required>
+                        </div>
+                        <div class="fs-field">
+                            <label class="fs-label">Yangi Parol (Ixtiyoriy)</label>
+                            <input type="password" th:field="*{password}" class="fs-input"
+                                   placeholder="O'zgarishsiz qoldirish uchun bo'sh qo'ying">
+                        </div>
+                        <div class="fs-field" style="margin-bottom:0;">
+                            <label class="fs-label">Tizimdagi roli</label>
+                            <div class="fs-select-wrap">
+                                <select th:field="*{role}" class="fs-select">
+                                    <option value="ADMIN">ADMIN</option>
+                                    <option value="YETKAZUVCHI">YETKAZUVCHI</option>
+                                    <option value="FOYDALANUVCHI">FOYDALANUVCHI</option>
+                                </select>
+                                <i class='bx bx-chevron-down'></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fs-panel__footer">
+                        <a th:href="@{/users}" class="fs-btn fs-btn--danger-ghost">Bekor qilish</a>
+                        <button type="submit" class="fs-btn fs-btn--primary">
+                            <i class='bx bx-save'></i> Yangilash
+                        </button>
+                    </div>
+                </form>
+            </div>
+
         </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Telefon raqami</label>
-          <input type="text" th:field="*{phoneNumber}" required class="mt-1 block w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm">
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Yangi Parol (Ixtiyoriy)</label>
-          <input type="password" th:field="*{password}" class="mt-1 block w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm" placeholder="O'zgarishsiz qoldirish uchun bo'sh qo'ying">
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Tizimdagi roli</label>
-          <select th:field="*{role}" class="mt-1 block w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm">
-            <option value="ADMIN">ADMIN</option>
-            <option value="YETKAZUVCHI">YETKAZUVCHI</option>
-            <option value="FOYDALANUVCHI">FOYDALANUVCHI</option>
-          </select>
-        </div>
-        <div class="flex items-center justify-end space-x-4 pt-4 border-t border-gray-50 mt-6">
-          <!-- <button> o'rniga redirect bo'lishi uchun <a> (havola) ishlatildi -->
-          <a th:href="@{/users/list}" style="background-color: #DF3535" class="px-5 py-2.5 text-sm font-bold text-white rounded-xl shadow-sm transition-all inline-block text-center">Bekor qilish</a>
-          <button type="submit" style="background-color: #FFEC00" class="px-5 py-2.5 hover:bg-yellow-400 text-gray-900 text-sm font-bold rounded-xl shadow-sm transition-all cursor-pointer">Yangilash</button>
-        </div>
-      </form>
     </div>
-  </div>
-</div>
+</main>
 </body>
 </html>

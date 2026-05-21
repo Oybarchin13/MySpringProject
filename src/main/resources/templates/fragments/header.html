@@ -2,94 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head></head>
 <body>
-<header
-        th:fragment="top-header"
-        class="fixed top-0 left-0 w-full h-20 bg-white border-b border-gray-200 shadow-sm z-50 flex items-center justify-between px-8">
+<header th:fragment="top-header" class="fs-header">
 
     <!-- LOGO -->
-    <a th:href="@{/}"
-       style="text-decoration:none; display:flex; flex-direction:column; line-height:1.2;">
-
-        <div style="display:flex; align-items:center; gap:6px;">
-
-            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
-                <circle cx="20" cy="20" r="20" fill="#FFD600"/>
-                <ellipse cx="20" cy="24" rx="12" ry="4" fill="#1a1a1a" opacity="0.15"/>
-                <path d="M12 18c0-4.4 3.6-8 8-8s8 3.6 8 8"
-                      stroke="#1a1a1a"
-                      stroke-width="2.5"
-                      stroke-linecap="round"/>
-                <circle cx="20" cy="20" r="5" fill="#1a1a1a"/>
-                <circle cx="20" cy="20" r="2" fill="#FFD600"/>
-            </svg>
-
-            <span class="logo-text">
-                Food<span style="color:#e6a800;">Swift</span>
-            </span>
+    <a th:href="@{/}" class="fs-logo">
+        <div class="fs-logo__icon">🍕</div>
+        <div>
+            <div class="fs-logo__name">Food<span>Swift</span></div>
+            <div class="fs-logo__sub">Yetkazib berish</div>
         </div>
-
-        <span class="logo-sub">
-            Yetkazib berish xizmati
-        </span>
     </a>
 
     <!-- SEARCH -->
-    <div class="relative w-[450px]">
-        <i class='bx bx-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-2xl z-10'></i>
-        <input
-                type="text"
-                placeholder="Taom, restoran yoki mahsulot qidiring..."
-                class="w-full h-12 bg-gray-100 rounded-xl pl-14 pr-4 text-sm outline-none border border-transparent focus:border-yellow-400 transition-all">
+    <div class="fs-search">
+        <i class='bx bx-search fs-search__icon'></i>
+        <input type="text" placeholder="Taom, restoran yoki mahsulot qidiring...">
     </div>
 
     <!-- PROFILE -->
-    <div style="position:relative;">
-        <button class="profile-btn flex items-center gap-3 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-xl transition-all"
-                id="profileBtn">
-            <div class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center">
-                <i class='bx bx-user text-xl'></i>
+    <div class="fs-profile">
+        <button class="fs-profile__btn" id="profileBtn">
+            <div class="fs-profile__avatar">
+                <i class='bx bx-user'></i>
             </div>
-            <span style="font-size:14px; font-weight:800; color:#222;"
-                  th:text="${username} ?: 'Foydalanuvchi'">
-                Oybarchin
-            </span>
-            <i class='bx bx-chevron-down'
-               style="color:#aaa; font-size:16px;"></i>
+            <span class="fs-profile__name" th:text="${username} ?: 'Foydalanuvchi'">Oybarchin</span>
+            <i class='bx bx-chevron-down fs-profile__chevron'></i>
         </button>
 
-        <!-- DROPDOWN -->
-        <div id="dropdownMenu"
-             class="hidden absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden z-50">
-
-            <a th:href="@{/profile}"
-               class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition-all">
-                <i class='bx bx-user text-lg'></i>
-                Profil
+        <div id="dropdownMenu" class="fs-dropdown">
+            <a th:href="@{/profile}">
+                <i class='bx bx-user'></i> Profil
             </a>
-
-            <a th:href="@{/orders}"
-               class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition-all">
-                <i class='bx bx-list-ul text-lg'></i>
-                Mening buyurtmalarim
+            <a th:href="@{/orders}">
+                <i class='bx bx-list-ul'></i> Buyurtmalarim
             </a>
-
-            <a th:href="@{/cart}"
-               class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition-all">
-                <i class='bx bx-cart text-lg'></i>
-                Savatcha
+            <a th:href="@{/cart}">
+                <i class='bx bx-cart'></i> Savatcha
             </a>
-            <a th:href="@{/users}"
-               class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition-all">
-                <i class='bx bx-cart text-lg'></i>
-                Admin page
+            <a th:href="@{/users}">
+                <i class='bx bx-grid-alt'></i> Admin panel
             </a>
-
-            <hr class="border-gray-100">
-
-            <a th:href="@{/logout}"
-               class="flex items-center gap-3 px-5 py-3 hover:bg-red-50 text-red-500 transition-all">
-                <i class='bx bx-log-out text-lg'></i>
-                Chiqish
+            <hr>
+            <a th:href="@{/logout}" class="danger">
+                <i class='bx bx-log-out'></i> Chiqish
             </a>
         </div>
     </div>
@@ -99,24 +54,18 @@
             var btn  = document.getElementById('profileBtn');
             var menu = document.getElementById('dropdownMenu');
             if (!btn || !menu) return;
-
             btn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                menu.classList.toggle('hidden');
+                menu.classList.toggle('open');
             });
-
-            document.addEventListener('click', function (e) {
-                if (!btn.contains(e.target)) {
-                    menu.classList.add('hidden');
-                }
+            document.addEventListener('click', function () {
+                menu.classList.remove('open');
             });
-
             document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') menu.classList.add('hidden');
+                if (e.key === 'Escape') menu.classList.remove('open');
             });
         });
     </script>
-
 </header>
 </body>
 </html>

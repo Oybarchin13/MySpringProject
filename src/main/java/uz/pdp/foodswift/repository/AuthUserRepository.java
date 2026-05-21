@@ -18,4 +18,8 @@ public interface AuthUserRepository extends JpaRepository<AuthUsers, String> {
 
     Page<AuthUsers> findAllByCriteria(String search, Pageable pageable);
 
-    Optional<AuthUsers> findByIdAndDeletedFalse(String id);}
+    Optional<AuthUsers> findByIdAndDeletedFalse(String id);
+
+    Optional<AuthUsers> findByPhoneNumber(String phoneNumber);
+
+}

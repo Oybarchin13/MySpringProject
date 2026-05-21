@@ -1,8 +1,11 @@
 package uz.pdp.foodswift.service;
 
+import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.pdp.foodswift.criteria.BaseCriteria;
@@ -10,6 +13,7 @@ import uz.pdp.foodswift.exception.BadRequestException;
 import uz.pdp.foodswift.model.dto.*;
 import uz.pdp.foodswift.model.entity.AddFood;
 import uz.pdp.foodswift.model.entity.AuthUsers;
+import uz.pdp.foodswift.model.entity.enums.Roles;
 import uz.pdp.foodswift.model.mapper.AuthUserMapper;
 import uz.pdp.foodswift.model.validation.AuthUserValidator;
 import uz.pdp.foodswift.repository.AuthUserRepository;
@@ -18,6 +22,7 @@ import uz.pdp.foodswift.service.base.CrudService;
 import uz.pdp.foodswift.utils.Errors;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -33,6 +38,10 @@ public class AuthUserService extends AbstractService<AuthUserRepository, AuthUse
         dto.validator();
         AuthUsers authUsers = mapper.fromDto(dto);
         return mapper.toDto(repository.save(authUsers));
+    }
+
+    public Optional<AuthUsers> findByPhoneNumber(@NonNull String phone){
+       return repository.findByPhoneNumber(phone);
     }
 
 
@@ -68,4 +77,30 @@ public class AuthUserService extends AbstractService<AuthUserRepository, AuthUse
             throw new BadRequestException(Errors.CANT_DELETE_ROLE);
         }
     }
+
+
+
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    // Yangi metod qo'shamiz:
+    public void register(AuthUserRegisterDto dto) {
+        // 1. Telefon raqam band emasligini tekshirish
+        if (repository.findByPhoneNumber(dto.getPhoneNumber()).isPresent()) {
+            throw new BadRequestException("Bu telefon raqami allaqachon ro'yxatdan o'tgan!");
+        }
+
+        // 2. Yangi foydalanuvchi obyektini yasash
+        AuthUsers authUser = AuthUsers.builder()
+                .fullName(dto.getFullName())
+                .phoneNumber(dto.getPhoneNumber())
+                .password(passwordEncoder.encode(dto.getPassword())) // <--- PAROL SHIFRLANDI
+                .role(Roles.FOYDALANUVCHI) // <--- To'g'ridan-to'g'ri Enum berildi (yoki Roles.USER)
+                .build();
+
+        // 3. Bazaga saqlash
+        repository.save(authUser);
+    }
+
 }

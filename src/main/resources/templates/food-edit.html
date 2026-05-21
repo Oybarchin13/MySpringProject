@@ -1,141 +1,136 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="uz" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FoodSwift - Taomni tahrirlash</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodSwift – Taomni Tahrirlash</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-50 font-sans antialiased">
+<body>
 
 <div th:replace="~{fragments/header :: top-header}"></div>
-
 <div th:replace="~{fragments/navbar :: sidebar}"></div>
 
-<main class="pt-20 pl-64 min-h-screen">
-  <div class="max-w-4xl mx-auto py-8 px-6 lg:px-8">
+<main class="fs-main--admin">
+    <div class="fs-page--narrow">
 
-    <div class="mb-6 flex items-center justify-between">
-      <div>
-        <a th:href="@{/foods/list}" class="text-sm font-medium text-amber-600 hover:text-amber-500 flex items-center gap-1 transition-colors">
-          <i class='bx bx-left-arrow-alt text-lg'></i> Taomlar ro'yxatiga qaytish
-        </a>
-        <h1 class="mt-2 text-2xl font-bold tracking-tight text-gray-900">Taom ma'lumotlarini tahrirlash</h1>
-        <p class="mt-1 text-xs text-gray-500">FoodSwift boshqaruv paneli orqali menyuni yangilash.</p>
-      </div>
-    </div>
-
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-
-      <form th:action="@{/foods/edit/{id}(id=${addFood.id})}" th:object="${addFood}" method="POST" class="p-8 space-y-6">
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-          <div class="md:col-span-2 space-y-5">
-
+        <div class="fs-page-header">
             <div>
-              <label for="foodName" class="block text-xs font-semibold text-gray-700 uppercase tracking-wider">Taom nomi</label>
-              <input type="text" id="foodName" name="foodName" th:value="*{foodName}" required
-                     class="mt-1.5 block w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-amber-400 focus:ring-4 focus:ring-amber-100 sm:text-sm outline-none transition-all shadow-sm">
+                <a th:href="@{/foods/list}" class="fs-back-link">
+                    <i class='bx bx-left-arrow-alt'></i> Taomlar ro'yxatiga qaytish
+                </a>
+                <h1 class="fs-page-title">Taomni tahrirlash</h1>
+                <p class="fs-page-sub">FoodSwift boshqaruv paneli orqali menyuni yangilang</p>
             </div>
-
-            <div>
-              <label for="price" class="block text-xs font-semibold text-gray-700 uppercase tracking-wider">Narxi (UZS)</label>
-              <div class="relative mt-1.5 rounded-xl shadow-sm">
-                <input type="number" step="0.01" id="price" name="price" th:value="*{price}" required
-                       class="block w-full rounded-xl border border-gray-300 pl-4 pr-12 py-3 text-gray-900 placeholder-gray-400 focus:border-amber-400 focus:ring-4 focus:ring-amber-100 sm:text-sm outline-none transition-all">
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                  <span class="text-gray-400 text-sm font-medium">so'm</span>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label for="category" class="block text-xs font-semibold text-gray-700 uppercase tracking-wider">Kategoriya</label>
-              <select id="category" name="category"
-                      class="mt-1.5 block w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 focus:border-amber-400 focus:ring-4 focus:ring-amber-100 sm:text-sm outline-none transition-all shadow-sm bg-white cursor-pointer">
-
-                <option th:each="cat : ${T(uz.pdp.foodswift.model.entity.enums.FoodCategory).values()}"
-                        th:value="${cat}"
-                        th:text="${cat.displayName}"
-                        th:selected="${cat == addFood.category}">Kategoriya</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="description" class="block text-xs font-semibold text-gray-700 uppercase tracking-wider">Taom haqida qisqacha tavsif</label>
-              <textarea id="description" name="description" rows="4" th:text="*{description}"
-                        class="mt-1.5 block w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-amber-400 focus:ring-4 focus:ring-amber-100 sm:text-sm outline-none transition-all shadow-sm resize-none"
-                        placeholder="Masalliqlar va tarkibi haqida..."></textarea>
-            </div>
-          </div>
-
-          <div class="md:col-span-1 bg-gray-50 p-5 rounded-2xl border border-gray-200 flex flex-col justify-between">
-            <div class="space-y-4">
-              <div>
-                <label for="imgUrl" class="block text-xs font-semibold text-gray-700 uppercase tracking-wider">Rasm URL manzili</label>
-                <input type="url" id="imgUrl" name="imgUrl" th:value="*{imgUrl}" placeholder="https://example.com/image.jpg"
-                       class="mt-1.5 block w-full rounded-xl border border-gray-300 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-amber-400 focus:ring-4 focus:ring-amber-100 text-xs outline-none transition-all shadow-sm"
-                       oninput="updatePreview(this.value)">
-              </div>
-
-              <div>
-                <span class="block text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-2">Rasm ko'rinishi:</span>
-                <div class="relative aspect-video w-full rounded-xl overflow-hidden bg-gray-100 border border-gray-200 flex items-center justify-center">
-                  <img id="imagePreview" th:src="*{imgUrl}" alt="Food preview"
-                       class="w-full h-full object-cover"
-                       onerror="this.style.display='none'; document.getElementById('placeholderText').style.display='block';">
-                  <span id="placeholderText" class="text-xs text-gray-400 px-4 text-center hidden">
-                                            <i class='bx bx-image-alt text-2xl block mb-1'></i> Rasm manzili noto'g'ri yoki bo'sh
-                                        </span>
-                </div>
-              </div>
-            </div>
-
-            <p class="text-[11px] text-gray-400 mt-4 leading-relaxed">
-              <i class='bx bx-info-circle'></i> Tizim dizayni chiroyli chiqishi uchun sifatli va to'g'ri URL manzildan foydalaning.
-            </p>
-          </div>
-
         </div>
 
-        <div class="pt-6 border-t border-gray-200 flex items-center justify-end gap-3">
-          <a th:href="@{/foods/list}"
-             class="rounded-xl border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all">
-            Bekor qilish
-          </a>
-          <button type="submit"
-                  class="rounded-xl bg-[#F59E0B] px-8 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-amber-600 focus:outline-none focus:ring-4 focus:ring-amber-200 transition-all">
-            O'zgarishlarni saqlash
-          </button>
+        <div class="fs-panel">
+            <form th:action="@{/foods/edit/{id}(id=${addFood.id})}" th:object="${addFood}" method="POST">
+                <div class="fs-panel__body">
+                    <div style="display:grid; grid-template-columns:1fr 280px; gap:24px;">
+
+                        <!-- Left: Fields -->
+                        <div>
+                            <div class="fs-field">
+                                <label class="fs-label">Taom nomi</label>
+                                <input type="text" name="foodName" th:value="*{foodName}"
+                                       class="fs-input" required>
+                            </div>
+
+                            <div class="fs-field">
+                                <label class="fs-label">Narxi (so'm)</label>
+                                <input type="number" step="0.01" name="price" th:value="*{price}"
+                                       class="fs-input" required>
+                            </div>
+
+                            <div class="fs-field">
+                                <label class="fs-label">Kategoriya</label>
+                                <div class="fs-select-wrap">
+                                    <select name="category" class="fs-select">
+                                        <option th:each="cat : ${T(uz.pdp.foodswift.model.entity.enums.FoodCategory).values()}"
+                                                th:value="${cat}"
+                                                th:text="${cat.displayName}"
+                                                th:selected="${cat == addFood.category}">Kategoriya</option>
+                                    </select>
+                                    <i class='bx bx-chevron-down'></i>
+                                </div>
+                            </div>
+
+                            <div class="fs-field" style="margin-bottom:0;">
+                                <label class="fs-label">Tavsif</label>
+                                <textarea name="description" rows="4" th:text="*{description}"
+                                          class="fs-textarea"
+                                          placeholder="Masalliqlar va tarkibi haqida..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Right: Image preview -->
+                        <div class="fs-panel" style="padding:20px; display:flex; flex-direction:column; gap:16px;">
+                            <div class="fs-field" style="margin-bottom:0;">
+                                <label class="fs-label">Rasm URL</label>
+                                <input type="url" name="imgUrl" th:value="*{imgUrl}"
+                                       class="fs-input"
+                                       placeholder="https://example.com/image.jpg"
+                                       oninput="updatePreview(this.value)">
+                            </div>
+
+                            <div>
+                                <label class="fs-label">Ko'rinish</label>
+                                <div style="position:relative; border-radius:12px; overflow:hidden; background:var(--gray-1); border:1.5px solid var(--gray-2); aspect-ratio:16/9; display:flex; align-items:center; justify-content:center;">
+                                    <img id="imagePreview" th:src="*{imgUrl}" alt="Preview"
+                                         style="width:100%; height:100%; object-fit:cover;"
+                                         onerror="this.style.display='none'; document.getElementById('placeholderText').style.display='flex';">
+                                    <span id="placeholderText" style="display:none; flex-direction:column; align-items:center; color:var(--gray-3); font-size:12px; gap:6px; text-align:center;">
+                                        <i class='bx bx-image-alt' style="font-size:28px;"></i>
+                                        Rasm URL noto'g'ri
+                                    </span>
+                                </div>
+                            </div>
+
+                            <p style="font-size:11px; color:var(--gray-3); line-height:1.5;">
+                                <i class='bx bx-info-circle'></i>
+                                Sifatli va to'g'ri URL manzildan foydalaning.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fs-panel__footer">
+                    <a th:href="@{/foods/list}" class="fs-btn fs-btn--ghost">Bekor qilish</a>
+                    <button type="submit" class="fs-btn fs-btn--primary">
+                        <i class='bx bx-save'></i> O'zgarishlarni saqlash
+                    </button>
+                </div>
+            </form>
         </div>
-      </form>
+
     </div>
-  </div>
 </main>
 
 <script>
-  function updatePreview(url) {
-    const img = document.getElementById('imagePreview');
-    const placeholder = document.getElementById('placeholderText');
-    if(url) {
-      img.src = url;
-      img.style.display = 'block';
-      placeholder.style.display = 'none';
-    } else {
-      img.style.display = 'none';
-      placeholder.style.display = 'block';
+    function updatePreview(url) {
+        var img = document.getElementById('imagePreview');
+        var ph  = document.getElementById('placeholderText');
+        if (url) {
+            img.src = url;
+            img.style.display = 'block';
+            ph.style.display = 'none';
+        } else {
+            img.style.display = 'none';
+            ph.style.display = 'flex';
+        }
     }
-  }
-
-  window.onload = function() {
-    const img = document.getElementById('imagePreview');
-    if(!img.getAttribute('src')) {
-      img.style.display = 'none';
-      document.getElementById('placeholderText').style.display = 'block';
-    }
-  }
+    window.onload = function () {
+        var img = document.getElementById('imagePreview');
+        if (!img.getAttribute('src')) {
+            img.style.display = 'none';
+            document.getElementById('placeholderText').style.display = 'flex';
+        }
+    };
 </script>
 </body>
 </html>
