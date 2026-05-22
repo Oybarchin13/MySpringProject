@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ro'yxatdan o'tish - FoodSwift</title>
+    <link rel="stylesheet" href="/css/register.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="food-float fc-1"><div class="emoji">🍔</div><span>Burger</span></div>
+<div class="food-float fc-2"><div class="emoji">🍕</div><span>Pizza</span></div>
+<div class="food-float fc-3"><div class="emoji">🥗</div><span>Salat</span></div>
+<div class="food-float fc-4"><div class="emoji">🥤</div><span>Drinks</span></div>
+<div class="food-float fc-5"><div class="emoji">🍜</div><span>Lag'mon</span></div>
+<div class="food-float fc-6"><div class="emoji">🍰</div><span>Desert</span></div>
+
+<!-- Card -->
+<div class="card">
+
+    <!-- Logo -->
+    <div class="logo-wrap">
+        <div class="logo-row">
+            <div class="logo-icon">🍕</div>
+            <span class="logo-name">FoodSwift</span>
+        </div>
+        <span class="logo-sub">Yetkazib berish</span>
+    </div>
+
+    <!-- Alerts -->
+    <div th:if="${errorMessage}" class="alert alert--error">
+        <i class='bx bx-error-circle'></i>
+        <span th:text="${errorMessage}">Xatolik yuz berdi.</span>
+    </div>
+    <div th:if="${successMessage}" class="alert alert--success">
+        <i class='bx bx-check-circle'></i>
+        <span th:text="${successMessage}">Muvaffaqiyatli ro'yxatdan o'tdingiz!</span>
+    </div>
+
+    <!-- Form -->
+    <form th:action="@{/auth/register}" th:object="${userSaveDto}" method="POST">
+
+        <div class="field">
+            <label>To'liq ismi</label>
+            <div class="input-wrap">
+                <input type="text" th:field="*{fullName}"
+                       placeholder="Abdulaziz Ochilov" required>
+                <i class='bx bx-user icon'></i>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Telefon raqam</label>
+            <div class="input-wrap">
+                <input type="tel" th:field="*{phoneNumber}"
+                       placeholder="+998 90 123 45 67" required>
+                <i class='bx bx-phone icon'></i>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="field" style="margin-bottom:0;">
+                <label>Parol</label>
+                <div class="input-wrap">
+                    <input type="password" id="reg-password" th:field="*{password}"
+                           placeholder="••••••••" required
+                           oninput="checkStrength(this.value)">
+                    <i class='bx bx-lock-alt icon'></i>
+                    <button type="button" class="eye-toggle" onclick="togglePwd('reg-password', this)">
+                        <i class='bx bx-hide'></i>
+                    </button>
+                </div>
+                <div class="pwd-strength">
+                    <div class="pwd-bar" id="bar1"></div>
+                    <div class="pwd-bar" id="bar2"></div>
+                    <div class="pwd-bar" id="bar3"></div>
+                </div>
+            </div>
+
+            <div class="field" style="margin-bottom:0;">
+                <label>Parolni tasdiqlash</label>
+                <div class="input-wrap">
+                    <input type="password" id="reg-confirm"
+                           placeholder="••••••••" required
+                           oninput="checkMatch()">
+                    <i class='bx bx-lock icon'></i>
+                    <button type="button" class="eye-toggle" onclick="togglePwd('reg-confirm', this)">
+                        <i class='bx bx-hide'></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-bottom:16px;"></div>
+
+        <div class="terms-row">
+            <input type="checkbox" id="terms" required>
+            <label for="terms">
+                <a href="#">Foydalanish shartlari</a> va
+                <a href="#">Maxfiylik siyosati</a> bilan roziman
+            </label>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+            <i class='bx bx-user-plus'></i> Ro'yxatdan o'tish
+        </button>
+    </form>
+
+    <div class="card-footer">
+        Akkountingiz bormi?
+        <a th:href="@{/auth/login}">Tizimga kirish</a>
+    </div>
+</div>
+
+<script>
+    function togglePwd(inputId, btn) {
+        var inp  = document.getElementById(inputId);
+        var icon = btn.querySelector('i');
+        if (inp.type === 'password') {
+            inp.type = 'text';
+            icon.className = 'bx bx-show';
+        } else {
+            inp.type = 'password';
+            icon.className = 'bx bx-hide';
+        }
+    }
+
+    function checkStrength(val) {
+        var b1 = document.getElementById('bar1');
+        var b2 = document.getElementById('bar2');
+        var b3 = document.getElementById('bar3');
+        [b1,b2,b3].forEach(function(b){ b.className = 'pwd-bar'; });
+        if (val.length === 0) return;
+        if (val.length < 6) {
+            b1.classList.add('weak');
+        } else if (val.length < 10 || !/[A-Z]/.test(val) || !/[0-9]/.test(val)) {
+            b1.classList.add('medium'); b2.classList.add('medium');
+        } else {
+            b1.classList.add('strong'); b2.classList.add('strong'); b3.classList.add('strong');
+        }
+    }
+
+    function checkMatch() {
+        var p = document.getElementById('reg-password').value;
+        var c = document.getElementById('reg-confirm');
+        c.style.borderColor = (c.value && c.value !== p) ? '#EF4444' : '';
+    }
+</script>
+</body>
+</html>
