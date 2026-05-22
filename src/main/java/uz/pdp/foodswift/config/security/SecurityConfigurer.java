@@ -9,7 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity   // @PreAuthorize ni yoqish uchun MUHIM!
+@EnableMethodSecurity
 public class SecurityConfigurer {
 
     private final CustomUserDetailsService userDetailsService;
@@ -48,7 +48,7 @@ public class SecurityConfigurer {
         http.rememberMe(rememberMe -> rememberMe
                 .rememberMeParameter("rememberMe")
                 .rememberMeCookieName("rem-me")
-                .tokenValiditySeconds(60 * 60)
+                .tokenValiditySeconds(60)
                 .key("secret_key")
                 .alwaysRemember(true)
                 .userDetailsService(userDetailsService)

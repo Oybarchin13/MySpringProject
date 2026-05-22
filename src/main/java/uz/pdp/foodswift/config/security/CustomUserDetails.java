@@ -16,9 +16,8 @@ public class CustomUserDetails implements UserDetails {
         this.authorities = authorities;
     }
 
-    // MANA SHU METOD THYMELEAF'DA principal.fullName DEB CHAQIRILISHI UCHUN XIZMAT QILADI
     public String getFullName() {
-        return authUser.getFullName(); // Agar AuthUsers ichida ism boshqa maydonda bo'lsa (masalan, name yoki firstName), o'shani yozing
+        return authUser.getFullName();
     }
 
     @Override
@@ -33,7 +32,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return authUser.getPhoneNumber(); // Tizimga kirishda ishlatiladigan identifier (Phone number)
+        return authUser.getPhoneNumber();
     }
 
     @Override

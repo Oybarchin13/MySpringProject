@@ -15,7 +15,6 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
-    // Konstruktor orqali ProfileService ni ulaymiz
     public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
     }
@@ -26,7 +25,6 @@ public class ProfileController {
             return "redirect:/auth/login";
         }
 
-        // CustomUserDetails ichidagi ma'lumotlarni modelga yuklaymiz
         model.addAttribute("fullName", userDetails.getFullName());
         model.addAttribute("phoneNumber", userDetails.getUsername());
         return "clients/profile"; // profile.html sahifasini ochadi
@@ -43,12 +41,10 @@ public class ProfileController {
         }
 
         try {
-            // Service qatlamiga joriy telefon (identifikator) va yangi ma'lumotlarni yuboramiz
             profileService.updateProfile(userDetails.getUsername(), fullName, phoneNumber, newPassword);
 
             redirectAttributes.addFlashAttribute("successMessage", "Profil ma'lumotlari muvaffaqiyatli yangilandi!");
         } catch (Exception e) {
-            // Xavfsiz xatolik xabarini sahifaga qaytaramiz (masalan, telefon raqam band bo'lsa)
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
 

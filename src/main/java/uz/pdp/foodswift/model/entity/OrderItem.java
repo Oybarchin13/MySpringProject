@@ -26,5 +26,5 @@ public class OrderItem {
     private AddFood food;
 
     private Integer quantity;
-    private Double price; // Buyurtma paytidagi narxi
+    private Double price;
 }

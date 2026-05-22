@@ -29,18 +29,15 @@ public class OrderService {
         AuthUsers user = userRepository.findByPhoneNumber(phoneNumber)
                 .orElseThrow(() -> new RuntimeException("Foydalanuvchi topilmadi"));
 
-        // 1. Savatdagi barcha narsalarni olamiz
         List<CartItem> cartItems = cartItemRepository.findAllByUserId(user.getId());
         if (cartItems.isEmpty()) {
             throw new RuntimeException("Savatingiz bo'sh!");
         }
 
-        // 2. Jami summani hisoblaymiz
         double totalAmount = cartItems.stream()
                 .mapToDouble(item -> item.getFood().getPrice() * item.getQuantity())
                 .sum();
 
-        // 3. Yangi Order ochamiz (OrderStatus.YANGI biriktirilmoqda)
         Order order = Order.builder()
                 .user(user)
                 .totalAmount(BigDecimal.valueOf(totalAmount))
@@ -49,7 +46,6 @@ public class OrderService {
                 .items(new ArrayList<>())
                 .build();
 
-        // 4. Savatdagilarni OrderItem ga aylantiramiz
         for (CartItem cartItem : cartItems) {
             OrderItem orderItem = OrderItem.builder()
                     .order(order)
@@ -60,7 +56,6 @@ public class OrderService {
             order.getItems().add(orderItem);
         }
 
-        // 5. Buyurtmani saqlab, savatni tozalaymiz
         orderRepository.save(order);
         cartItemRepository.deleteAll(cartItems);
     }
@@ -73,7 +68,6 @@ public class OrderService {
         return orderRepository.findAllByUserIdWithItemsOrderByCreatedAtDesc(user.getId());
     }
 
-    // 6. Admin arizani qabul qilganda yoki rad etganda statusni o'zgartirish metodi
     @Transactional
     public void updateStatus(String orderId, OrderStatus orderStatus) {
         Order order = orderRepository.findById(orderId)
@@ -82,7 +76,6 @@ public class OrderService {
         orderRepository.save(order); // Status yangilanadi
     }
 
-    // 7. Admin paneldagi "Arizalar" sahifasiga faqat YANGI tushgan buyurtmalarni chiqarish
     @Transactional(readOnly = true)
     public List<Order> getNewApplications() {
         return orderRepository.findAllByStatusOrderByCreatedAtDesc(OrderStatus.NEW);

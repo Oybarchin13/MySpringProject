@@ -22,11 +22,6 @@ public class AuthUsers extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    /**
-     * Eski: @Enumerated Roles role
-     * Yangi: @ManyToOne Role entity ga bog'lanish
-     * FetchType.EAGER — loadUserByUsername da permission lar ham yuklansin
-     */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;

@@ -29,8 +29,6 @@ public class DataInitializer implements CommandLineRunner {
     @Transactional
     public void run(String... args) {
 
-        // Idempotentlik tekshiruvi
-        // ADMIN roli allaqachon bo'lsa — qayta ishlamaymiz
         if (roleRepository.findByName("ADMIN").isPresent()) {
             log.info("DataInitializer: Ma'lumotlar allaqachon bor — o'tkazib yuborildi.");
             return;
@@ -38,7 +36,6 @@ public class DataInitializer implements CommandLineRunner {
 
         log.info("DataInitializer: Boshlang'ich ma'lumotlar yuklanmoqda...");
 
-        // ─── 1. PERMISSION'lar ───────────────────────────────────────
         Permission foodRead    = getOrCreate("FOOD_READ");
         Permission foodCreate  = getOrCreate("FOOD_CREATE");
         Permission foodDelete  = getOrCreate("FOOD_DELETE");
@@ -47,9 +44,7 @@ public class DataInitializer implements CommandLineRunner {
         Permission userRead    = getOrCreate("USER_READ");
         Permission userDelete  = getOrCreate("USER_DELETE");
 
-        // ─── 2. ROL'lar va permission bog'lanishlari ─────────────────
 
-        // ADMIN — barcha ruxsatlar
         Role adminRole = roleRepository.save(
                 Role.builder()
                         .name("ADMIN")
@@ -59,14 +54,12 @@ public class DataInitializer implements CommandLineRunner {
                                 userRead, userDelete))
                         .build());
 
-        // FOYDALANUVCHI — o'qish va buyurtma berish
         Role userRole = roleRepository.save(
                 Role.builder()
                         .name("FOYDALANUVCHI")
                         .permissions(Set.of(foodRead, orderCreate, orderRead))
                         .build());
 
-        // YETKAZUVCHI — faqat ko'rish
         roleRepository.save(
                 Role.builder()
                         .name("YETKAZUVCHI")
@@ -75,7 +68,6 @@ public class DataInitializer implements CommandLineRunner {
 
         log.info("DataInitializer: 7 permission, 3 rol yaratildi.");
 
-        // ─── 3. Default ADMIN foydalanuvchisi ────────────────────────
         if (authUserRepository.findByPhoneNumber("+998900000000").isEmpty()) {
             authUserRepository.save(
                     AuthUsers.builder()
@@ -90,10 +82,6 @@ public class DataInitializer implements CommandLineRunner {
         log.info("DataInitializer: Tayyor ✓");
     }
 
-    /**
-     * Permission nomga ko'ra topib qaytaradi;
-     * agar yo'q bo'lsa — yaratib saqlaydi.
-     */
     private Permission getOrCreate(String name) {
         return permissionRepository.findByName(name)
                 .orElseGet(() -> permissionRepository.save(

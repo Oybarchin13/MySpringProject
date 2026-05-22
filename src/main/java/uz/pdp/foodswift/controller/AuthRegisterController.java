@@ -44,7 +44,6 @@ public class AuthRegisterController {
         }
 
         try {
-            // Ma'lumotlarni saqlash uchun serviceni chaqiramiz
             authUserService.register(dto);
             return "redirect:/auth/login?success";
         } catch (Exception e) {

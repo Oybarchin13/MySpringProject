@@ -20,9 +20,9 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     List<Order> findAllByUserIdWithItemsOrderByCreatedAtDesc(@Param("userId") String userId);
 
     @Query("SELECT DISTINCT o FROM Order o " +
-            "LEFT JOIN FETCH o.user " +       // Foydalanuvchi ma'lumotlarini yuklaydi
-            "LEFT JOIN FETCH o.items i " +     // Buyurtma ichidagi elementlarni yuklaydi
-            "LEFT JOIN FETCH i.food " +        // Har bir elementning taom (Food) ma'lumotlarini yuklaydi
+            "LEFT JOIN FETCH o.user " +
+            "LEFT JOIN FETCH o.items i " +
+            "LEFT JOIN FETCH i.food " +
             "WHERE o.status = :status " +
             "ORDER BY o.createdAt DESC")
     List<Order> findAllByStatusOrderByCreatedAtDesc(@Param("status") OrderStatus status);

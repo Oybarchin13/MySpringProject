@@ -22,7 +22,6 @@ public class AddFoodController {
 
     private final AddFoodService addFoodService;
 
-    // Ro'yxatni ko'rish — FOOD_READ kerak
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('FOOD_READ')")
     public String getAll(Model model) {
@@ -32,7 +31,6 @@ public class AddFoodController {
         return "foodList";
     }
 
-    // Qo'shish formasi — FOOD_CREATE kerak
     @GetMapping("/add")
     @PreAuthorize("hasAuthority('FOOD_CREATE')")
     public String addFoodPage(Model model) {
@@ -48,7 +46,6 @@ public class AddFoodController {
         return "redirect:/foods/list";
     }
 
-    // Tahrirlash — FOOD_CREATE yoki ADMIN roli
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasAuthority('FOOD_CREATE') or hasRole('ADMIN')")
     public ModelAndView editFood(@PathVariable String id) {
@@ -66,7 +63,6 @@ public class AddFoodController {
         return "redirect:/foods/list";
     }
 
-    // O'chirish — FOOD_DELETE kerak
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('FOOD_DELETE')")
     public String delete(@PathVariable String id) {

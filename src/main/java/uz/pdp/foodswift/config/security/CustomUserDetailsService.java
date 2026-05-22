@@ -25,20 +25,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
 
-        // 1. Foydalanuvchini telefon raqami (username) orqali topish
         AuthUsers user = authUserService.findByPhoneNumber(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
                         "Foydalanuvchi topilmadi: " + username));
 
-        // 2. Authorities ro'yxatini yasash
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        // 2a. Rolni "ROLE_" prefiksi bilan qo'shamiz
         if (user.getRole() != null) {
             String roleName = "ROLE_" + user.getRole().getName().toUpperCase();
             authorities.add(new SimpleGrantedAuthority(roleName));
 
-            // 2b. Rolga biriktirilgan barcha permission larni qo'shamiz
             if (user.getRole().getPermissions() != null) {
                 user.getRole()
                         .getPermissions()
@@ -48,8 +44,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             }
         }
 
-        // 3. Biz yaratgan CustomUserDetails obyektini qaytaramiz
-        // Bu orqali Thymeleaf ichida principal.fullName xatoliksiz ishlaydi
         return new CustomUserDetails(user, authorities);
     }
 }
