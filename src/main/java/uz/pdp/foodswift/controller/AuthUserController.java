@@ -65,9 +65,22 @@ public class AuthUserController {
 
     @GetMapping("/{id}/edit")
     public ModelAndView editForm(@PathVariable(name = "id") String id) {
-        AuthUserDto dto = authUserService.get(id);
+        AuthUserDto userDto = authUserService.get(id);
+
+        // Thymeleaf th:object kutilayotgan shaklga (SaveDto) moslashtiramiz
+        AuthUserSaveDto saveDto = new AuthUserSaveDto();
+        saveDto.setFullName(userDto.getFullName());
+        saveDto.setPhoneNumber(userDto.getPhoneNumber());
+        // Parolni bo'sh qoldiramiz, input foydalanuvchiga bo'sh ko'rinadi
+        saveDto.setPassword("");
+
+        // Agar sizda userDto ichida role obyekti bo'lsa va undan ism olinsa:
+        if (userDto.getRoleName() != null) {
+            saveDto.setRoleName(userDto.getRoleName());
+        }
+
         ModelAndView modelAndView = new ModelAndView("users/edit");
-        modelAndView.addObject("userSaveDto", dto);
+        modelAndView.addObject("userSaveDto", saveDto); // HTML formaga mos obyekt ismi
         return modelAndView;
     }
 

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uz" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mening Buyurtmalarim – FoodSwift</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 0; }
+        .orders-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .page-title { font-size: 26px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+        .order-card { background: #ffffff; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .order-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 12px; }
+        .order-id { font-weight: 600; color: #0f172a; }
+        .order-date { font-size: 14px; color: #64748b; }
+        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; text-transform: uppercase; }
+        .status-pending { background: #fef3c7; color: #d97706; }
+        .order-item-row { display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 8px; color: #334155; }
+        .order-total-row { display: flex; justify-content: space-between; font-weight: 700; font-size: 18px; margin-top: 14px; padding-top: 12px; border-top: 1px dashed #cbd5e1; color: #28a745; }
+        .back-btn { display: inline-flex; align-items: center; gap: 8px; color: #64748b; text-decoration: none; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: top-header}"></div>
+
+<div class="orders-container">
+    <a href="/" class="back-btn"><i class='bx bx-arrow-back'></i> Menyuga qaytish</a>
+    <h1 class="page-title"><i class='bx bx-package'></i> Mening Buyurtmalarim</h1>
+
+    <div th:if="${#lists.isEmpty(orders)}" style="text-align: center; padding: 40px; color: #64748b;">
+        <p>Sizda hali buyurtmalar mavjud emas.</p>
+    </div>
+
+    <div th:each="order : ${orders}" class="order-card">
+        <div class="order-header">
+            <div>
+                <div class="order-id" th:text="'Buyurtma: #' + ${#strings.substring(order.id, 0, 8)}">#ID</div>
+                <div class="order-date" th:text="${#temporals.format(order.createdAt, 'dd.MM.yyyy HH:mm')}">Sana</div>
+            </div>
+            <span class="status-badge status-pending" th:text="${order.status}">PENDING</span>
+        </div>
+
+        <div class="order-body">
+            <div th:each="item : ${order.items}" class="order-item-row">
+                <span th:text="${item.food.foodName} + ' × ' + ${item.quantity}">Taom x Soni</span>
+                <span th:text="${#numbers.formatDecimal(item.price * item.quantity, 0, 'WHITESPACE', 0, 'POINT')} + ' so\'m'">0 so'm</span>
+            </div>
+        </div>
+
+        <div class="order-total-row">
+            <span>Jami summa:</span>
+            <span th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'WHITESPACE', 0, 'POINT')} + ' so\'m'">0 so'm</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

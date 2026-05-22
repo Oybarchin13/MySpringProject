@@ -4,263 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FoodSwift – Tez yetkazib berish</title>
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/menu.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-
-    <style>
-        /* ── HERO OVERRIDE: sariq fon ── */
-        .hero-section {
-            background: #FFE030;
-            min-height: 420px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            padding: 100px 64px 60px;
-            gap: 0;
-        }
-
-        /* Qorang'i doira — o'ng tomondan chiqadigan dekor */
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            right: -80px;
-            top: -80px;
-            width: 420px;
-            height: 420px;
-            background: rgba(0,0,0,0.08);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            right: 60px;
-            bottom: -100px;
-            width: 260px;
-            height: 260px;
-            background: rgba(0,0,0,0.05);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        /* ── LEFT: Matn ── */
-        .hero-left {
-            flex: 1;
-            z-index: 2;
-            min-width: 0;
-        }
-        .hero-badge {
-            display: inline-block;
-            background: #0F0F0F;
-            color: #FFE030;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 5px 16px;
-            border-radius: 9999px;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            margin-bottom: 22px;
-        }
-        .hero-title {
-            font-size: 52px;
-            font-weight: 900;
-            color: #0F0F0F;
-            line-height: 1.1;
-            margin: 0 0 16px;
-            letter-spacing: -1.5px;
-        }
-        .hero-sub {
-            font-size: 15px;
-            color: rgba(0,0,0,0.55);
-            font-weight: 500;
-            margin: 0 0 36px;
-        }
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: #0F0F0F;
-            color: #FFE030;
-            font-weight: 800;
-            font-size: 15px;
-            padding: 16px 36px;
-            border-radius: 14px;
-            text-decoration: none;
-            box-shadow: 0 8px 28px rgba(0,0,0,0.2);
-            transition: transform 0.18s, box-shadow 0.18s;
-        }
-        .hero-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 40px rgba(0,0,0,0.28);
-        }
-
-        /* ── CENTER: Taom rasmi ── */
-        .hero-food {
-            flex: 0 0 320px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            z-index: 3;
-            position: relative;
-            padding-bottom: 0;
-        }
-        .hero-food img {
-            width: 320px;
-            height: 320px;
-            object-fit: contain;
-            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.22));
-            animation: float 3.5s ease-in-out infinite;
-            display: block;
-        }
-        /* Oval soya */
-        .hero-food::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 24px;
-            background: rgba(0,0,0,0.12);
-            border-radius: 50%;
-            filter: blur(10px);
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50%       { transform: translateY(-14px); }
-        }
-
-        /* ── RIGHT: Telefon ── */
-        .hero-phone-wrap {
-            flex: 0 0 auto;
-            z-index: 2;
-            margin-left: 32px;
-        }
-        .hero-phone {
-            width: 210px;
-            height: 420px;
-            background: #1C1C1C;
-            border-radius: 42px;
-            padding: 14px;
-            box-shadow:
-                    0 30px 80px rgba(0,0,0,0.35),
-                    0 0 0 1px rgba(255,255,255,0.06),
-                    inset 0 1px 0 rgba(255,255,255,0.08);
-            position: relative;
-        }
-        .hero-phone__notch {
-            position: absolute;
-            top: 14px; left: 50%;
-            transform: translateX(-50%);
-            width: 62px; height: 14px;
-            background: #1C1C1C;
-            border-radius: 0 0 14px 14px;
-            z-index: 5;
-        }
-        .hero-phone__screen {
-            width: 100%; height: 100%;
-            background: #FFFFFF;
-            border-radius: 30px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 22px 12px 12px;
-            box-sizing: border-box;
-        }
-        .hero-phone__logo {
-            font-size: 13px;
-            font-weight: 900;
-            color: #0F0F0F;
-            text-align: center;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-        .hero-phone__badge {
-            background: #FFE030;
-            color: #0F0F0F;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 4px 16px;
-            border-radius: 9999px;
-            margin-bottom: 16px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-        .hero-phone__grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        .hero-phone__item {
-            background: #F5F5F5;
-            border-radius: 14px;
-            padding: 12px 6px 8px;
-            text-align: center;
-            border: 1px solid #E8E8E8;
-        }
-        .hero-phone__item .emoji { font-size: 26px; line-height: 1; }
-        .hero-phone__item p {
-            font-size: 10px;
-            font-weight: 700;
-            color: #555;
-            margin: 5px 0 0;
-        }
-        .hero-phone__delivery {
-            background: #FFE030;
-            color: #0F0F0F;
-            border-radius: 14px;
-            padding: 10px 12px;
-            width: 100%;
-            text-align: center;
-        }
-        .hero-phone__delivery p {
-            font-size: 11px;
-            font-weight: 800;
-            margin: 0;
-        }
-        .hero-phone__delivery small {
-            font-size: 10px;
-            font-weight: 600;
-            opacity: 0.65;
-        }
-    </style>
 </head>
 <body>
 
 <div th:replace="~{fragments/header :: top-header}"></div>
 
 <div class="fs-main">
-    <!-- HERO -->
     <section class="hero-section">
-
-        <!-- LEFT: Matn -->
         <div class="hero-left">
             <span class="hero-badge">🚀 Yangi platforma</span>
-            <h1 class="hero-title">
-                Mazali taomlar<br>har doim yoningizda!
-            </h1>
+            <h1 class="hero-title">Mazali taomlar<br>har doim yoningizda!</h1>
             <p class="hero-sub">Endi yanada tez va arzonroq yetkazib beramiz</p>
-            <a href="#" class="hero-cta">
-                🛒 &nbsp;Buyurtma berish
-            </a>
+            <a href="#" class="hero-cta">🛒 &nbsp;Buyurtma berish</a>
         </div>
 
-        <!-- CENTER: Taom rasmi -->
         <div class="hero-food">
-            <img
-                    src="https://images.deliveryhero.io/image/fd-pk/LH/pcoo-item-0.png"
-                    alt="Taom"
-                    onerror="this.src='https://cdn-icons-png.flaticon.com/512/1404/1404945.png'">
+            <img src="https://images.deliveryhero.io/image/fd-pk/LH/pcoo-item-0.png" alt="Taom"
+                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/1404/1404945.png'">
         </div>
 
-        <!-- RIGHT: Telefon mockup -->
         <div class="hero-phone-wrap">
             <div class="hero-phone">
                 <div class="hero-phone__notch"></div>
@@ -268,22 +37,10 @@
                     <div class="hero-phone__logo">⚡ FOODSWIFT</div>
                     <div class="hero-phone__badge">DELIVERY</div>
                     <div class="hero-phone__grid">
-                        <div class="hero-phone__item">
-                            <div class="emoji">🍔</div>
-                            <p>Burger</p>
-                        </div>
-                        <div class="hero-phone__item">
-                            <div class="emoji">🍕</div>
-                            <p>Pizza</p>
-                        </div>
-                        <div class="hero-phone__item">
-                            <div class="emoji">🥗</div>
-                            <p>Salat</p>
-                        </div>
-                        <div class="hero-phone__item">
-                            <div class="emoji">🥤</div>
-                            <p>Drinks</p>
-                        </div>
+                        <div class="hero-phone__item"><div class="emoji">🍔</div><p>Burger</p></div>
+                        <div class="hero-phone__item"><div class="emoji">🍕</div><p>Pizza</p></div>
+                        <div class="hero-phone__item"><div class="emoji">🥗</div><p>Salat</p></div>
+                        <div class="hero-phone__item"><div class="emoji">🥤</div><p>Drinks</p></div>
                     </div>
                     <div class="hero-phone__delivery">
                         <p>🚚 15-25 daqiqada</p>
@@ -294,8 +51,161 @@
         </div>
     </section>
 
-    <!-- MENU -->
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <div th:if="${cartSuccess}" style="background-color: #28a745; color: white; padding: 12px 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-family: 'Poppins', sans-serif;">
+            <i class='bx bx-check-circle'></i> <span th:text="${cartSuccess}"></span>
+        </div>
+        <div th:if="${cartError}" style="background-color: #dc3545; color: white; padding: 12px 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-family: 'Poppins', sans-serif;">
+            <i class='bx bx-error-circle'></i> <span th:text="${cartError}"></span>
+        </div>
+    </div>
+
     <div th:replace="~{home/food-menu-home :: menu-section}"></div>
+
+    <div class="fs-modal-overlay" id="fsModalOverlay" onclick="fsBgClose(event)">
+
+        <form th:action="@{/cart/add}" method="POST" class="fs-modal-content" id="fsModalContent">
+
+            <input type="hidden" id="formFoodId" name="foodId" value="">
+            <input type="hidden" id="formQuantity" name="quantity" value="1">
+
+            <button type="button" class="fs-modal-close" onclick="fsCloseModal()" aria-label="Yopish">
+                &times;
+            </button>
+
+            <img class="fs-modal-img" id="fsModalImg" src="" alt="Taom rasmi">
+
+            <div class="fs-modal-body">
+                <p class="fs-modal-name" id="fsModalName">—</p>
+
+                <p class="fs-modal-unit-price">
+                    1 ta narxi: <strong id="fsModalUnitDisplay">0</strong> so'm
+                </p>
+
+                <div class="fs-modal-counter-row">
+                    <button type="button" class="fs-modal-counter-btn" onclick="fsChangeQty(-1)" aria-label="Kamaytirish">−</button>
+                    <span class="fs-modal-qty" id="fsModalQty">1</span>
+                    <button type="button" class="fs-modal-counter-btn" onclick="fsChangeQty(+1)" aria-label="Oshirish">+</button>
+                </div>
+
+                <div class="fs-modal-total-row">
+                    <span class="fs-modal-total-label">Jami summa:</span>
+                    <span class="fs-modal-total-price" id="fsModalTotal">0 so'm</span>
+                </div>
+
+                <button type="submit" class="fs-modal-submit">
+                    <i class='bx bx-cart-add' style="font-size:20px;"></i>
+                    В корзину (Savatga)
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        (function () {
+            "use strict";
+
+            /* ── Global o'zgaruvchilar ────────────────────────────────── */
+            var _currentUnitPrice = 0;
+            var _currentQty       = 1;
+
+            /* ── Narxni formatlash (Masalan: 72 000) ─────────────────── */
+            function fsFormatPrice(number) {
+                return Math.round(number)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            }
+
+            /* ── Jami summani hisoblash va Inputlarni yangilash ──────── */
+            function fsUpdateTotal() {
+                var total = _currentUnitPrice * _currentQty;
+
+                // Vizual qismni yangilash
+                document.getElementById("fsModalTotal").textContent = fsFormatPrice(total) + " so'm";
+                document.getElementById("fsModalQty").textContent = _currentQty;
+
+                // FORMADAGI REAL INPUT QIYMATINI YANGILASH (CONTROLLERGA SHU BORADI)
+                document.getElementById("formQuantity").value = _currentQty;
+            }
+
+            /* ── Modal oynani ochish ────────────────────────────────── */
+            window.fsOpenModal = function (btn) {
+                var foodId = btn.getAttribute("data-id");
+                _currentUnitPrice = parseFloat(btn.getAttribute("data-price")) || 0;
+                _currentQty = 1;
+
+                // Formadagi yashirin inputlarga boshlang'ich qiymat berish
+                document.getElementById("formFoodId").value = foodId;
+                document.getElementById("formQuantity").value = _currentQty;
+
+                // Vizual ma'lumotlarni joylashtirish
+                document.getElementById("fsModalImg").src = btn.getAttribute("data-img") || "";
+                document.getElementById("fsModalName").textContent = btn.getAttribute("data-name") || "—";
+                document.getElementById("fsModalUnitDisplay").textContent = fsFormatPrice(_currentUnitPrice);
+
+                fsUpdateTotal();
+
+                // Modalni ko'rsatish
+                document.getElementById("fsModalOverlay").classList.add("fs-modal--open");
+                document.body.style.overflow = "hidden";
+            };
+
+            /* ── Modal oynani yopish ────────────────────────────────── */
+            window.fsCloseModal = function () {
+                document.getElementById("fsModalOverlay").classList.remove("fs-modal--open");
+                document.body.style.overflow = "";
+            };
+
+            /* ── Orqa fonga bosganda yopish ────────────────────────── */
+            window.fsBgClose = function (event) {
+                if (event.target === document.getElementById("fsModalOverlay")) {
+                    fsCloseModal();
+                }
+            };
+
+            /* ── Soni o'zgarganda hisoblash ─────────────────────────── */
+            window.fsChangeQty = function (delta) {
+                var next = _currentQty + delta;
+                if (next < 1) return; // 1 tadan kamayib ketmasin
+                _currentQty = next;
+                fsUpdateTotal();
+            };
+
+            /* ── Kategoriya filtri va Esc klavishasi ─────────────────── */
+            document.addEventListener("DOMContentLoaded", function () {
+                var chips   = document.querySelectorAll(".fs-chip");
+                var cards   = document.querySelectorAll(".fs-card");
+                var noMsg   = document.getElementById("no-foods-msg");
+
+                chips.forEach(function (chip) {
+                    chip.addEventListener("click", function () {
+                        chips.forEach(function (c) { c.classList.remove("active"); });
+                        this.classList.add("active");
+
+                        var cat   = this.getAttribute("data-category");
+                        var count = 0;
+
+                        cards.forEach(function (card) {
+                            if (cat === "ALL" || card.getAttribute("data-cat") === cat) {
+                                card.style.display = "flex";
+                                count++;
+                            } else {
+                                card.style.display = "none";
+                            }
+                        });
+
+                        noMsg.style.display = count > 0 ? "none" : "flex";
+                    });
+                });
+
+                /* Escape bosilganda modal yopilsin */
+                document.addEventListener("keydown", function (e) {
+                    if (e.key === "Escape") fsCloseModal();
+                });
+            });
+
+        }());
+    </script>
 </div>
 
 </body>

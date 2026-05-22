@@ -1,30 +1,32 @@
 package uz.pdp.foodswift.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import uz.pdp.foodswift.utils.Errors;
-import uz.pdp.foodswift.exception.BadRequestException;
-import uz.pdp.foodswift.model.entity.enums.Roles;
+import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AuthUserSaveDto {
+
     private String fullName;
     private String phoneNumber;
     private String password;
-    private String role;
 
-    public AuthUserSaveDto validator(){
-        if(fullName == null || fullName.isEmpty()){
-            throw new BadRequestException(Errors.NAME_IS_REQUIRED);
+    // Eski: private String role; (Roles.valueOf() bilan parse qilinardi)
+    // Yangi: role nomi — "ADMIN", "FOYDALANUVCHI" kabi string
+    // Mapper da RoleRepository orqali Role entity topiladi
+    private String roleName;
+
+    public void validator() {
+        if (fullName == null || fullName.isBlank()) {
+            throw new RuntimeException("To'liq ism kiritilishi shart!");
         }
-        if(phoneNumber == null || phoneNumber.isEmpty()){
-            throw new BadRequestException(Errors.PHONENUMBER_IS_REQUIRED);
+        if (phoneNumber == null || phoneNumber.isBlank()) {
+            throw new RuntimeException("Telefon raqam kiritilishi shart!");
         }
-        return this;
+        if (password == null || password.length() < 4) {
+            throw new RuntimeException("Parol kamida 4 ta belgidan iborat bo'lishi kerak!");
+        }
     }
 }

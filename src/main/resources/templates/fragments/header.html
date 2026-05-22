@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head></head>
 <body>
 <header th:fragment="top-header" class="fs-header">
@@ -21,32 +22,47 @@
 
     <!-- PROFILE -->
     <div class="fs-profile">
-        <button class="fs-profile__btn" id="profileBtn">
-            <div class="fs-profile__avatar">
-                <i class='bx bx-user'></i>
-            </div>
-            <span class="fs-profile__name" th:text="${username} ?: 'Foydalanuvchi'">Oybarchin</span>
-            <i class='bx bx-chevron-down fs-profile__chevron'></i>
-        </button>
 
-        <div id="dropdownMenu" class="fs-dropdown">
-            <a th:href="@{/profile}">
-                <i class='bx bx-user'></i> Profil
+        <div sec:authorize="isAuthenticated()" style="display: flex; align-items: center;">
+            <button class="fs-profile__btn" id="profileBtn">
+                <div class="fs-profile__avatar">
+                    <i class='bx bx-user'></i>
+                </div>
+                <span class="fs-profile__name" sec:authentication="principal.fullName">Oybarchin</span>
+                <i class='bx bx-chevron-down fs-profile__chevron'></i>
+            </button>
+
+            <div id="dropdownMenu" class="fs-dropdown">
+                <a th:href="@{/profile}">
+                    <i class='bx bx-user'></i> Profil
+                </a>
+                <a th:href="@{/orders}">
+                    <i class='bx bx-list-ul'></i> Buyurtmalarim
+                </a>
+                <a th:href="@{/cart}">
+                    <i class='bx bx-cart'></i> Savatcha
+                </a>
+                <a th:href="@{/users}" sec:authorize="hasRole('ADMIN')">
+                    <i class='bx bx-grid-alt'></i> Admin panel
+                </a>
+                <hr>
+                <form th:action="@{/logout}" method="post" style="margin: 0;">
+                    <button type="submit" class="danger" style="background: none; border: none; width: 100%; text-align: left; padding: 10px 15px; cursor: pointer; color: var(--danger-color, red); font-family: inherit;">
+                        <i class='bx bx-log-out'></i> Chiqish
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div sec:authorize="!isAuthenticated()" class="fs-auth-buttons" style="display: flex; gap: 10px;">
+            <a th:href="@{/auth/login}" class="btn-login" style="padding: 8px 16px; border: 1px solid #ccc; border-radius: 6px; text-decoration: none; color: #333; font-weight: 500;">
+                Kirish
             </a>
-            <a th:href="@{/orders}">
-                <i class='bx bx-list-ul'></i> Buyurtmalarim
-            </a>
-            <a th:href="@{/cart}">
-                <i class='bx bx-cart'></i> Savatcha
-            </a>
-            <a th:href="@{/users}">
-                <i class='bx bx-grid-alt'></i> Admin panel
-            </a>
-            <hr>
-            <a th:href="@{/logout}" class="danger">
-                <i class='bx bx-log-out'></i> Chiqish
+            <a th:href="@{/auth/register}" class="btn-register" style="padding: 8px 16px; background-color: #ffcc00; border-radius: 6px; text-decoration: none; color: #000; font-weight: 600;">
+                Ro'yxatdan o'tish
             </a>
         </div>
+
     </div>
 
     <script>

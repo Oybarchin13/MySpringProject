@@ -1,0 +1,119 @@
+.fs-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+.fs-modal-overlay.fs-modal--open {
+    display: flex;
+}
+.fs-modal-content {
+    background: #ffffff;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 420px;
+    overflow: hidden;
+    position: relative;
+    animation: fs-modal-in 0.22s ease;
+}
+@keyframes fs-modal-in {
+    from { opacity: 0; transform: scale(0.94) translateY(12px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+.fs-modal-close {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,0.06);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: #444;
+    z-index: 1;
+    transition: background 0.15s;
+}
+.fs-modal-close:hover { background: rgba(0,0,0,0.14); }
+.fs-modal-img {
+    width: 100%; height: 220px;
+    object-fit: cover;
+    display: block;
+}
+.fs-modal-body {
+    padding: 20px 22px 24px;
+}
+.fs-modal-name {
+    font-size: 20px; font-weight: 700;
+    color: #111; margin: 0 0 6px;
+}
+.fs-modal-unit-price {
+    font-size: 14px; color: #888; margin: 0 0 20px;
+}
+.fs-modal-counter-row {
+    display: flex; align-items: center; gap: 0;
+    margin-bottom: 20px;
+}
+.fs-modal-counter-btn {
+    width: 40px; height: 40px;
+    border: 1.5px solid #e0e0e0;
+    background: #f7f7f7;
+    border-radius: 10px;
+    font-size: 20px; font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.12s;
+    flex-shrink: 0;
+}
+.fs-modal-counter-btn:hover { background: #ededed; }
+.fs-modal-qty {
+    min-width: 48px; text-align: center;
+    font-size: 18px; font-weight: 700; color: #111;
+}
+.fs-modal-total-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    background: #f5f5f5;
+    border-radius: 12px;
+}
+.fs-modal-total-label {
+    font-size: 14px; color: #666; font-weight: 500;
+}
+.fs-modal-total-price {
+    font-size: 20px; font-weight: 800; color: #111;
+}
+.fs-modal-submit {
+    width: 100%;
+    padding: 14px;
+    background: #2ecc71;
+    border: none; border-radius: 12px;
+    font-size: 16px; font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.fs-modal-submit:hover  { background: #27ae60; }
+.fs-modal-submit:active { transform: scale(0.98); }
+
+/* Kartochkadagi "Buyurtma" tugmasi */
+.fs-card__order-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 9px 0;
+    background: #2ecc71;
+    border: none; border-radius: 10px;
+    font-size: 14px; font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    transition: background 0.15s;
+}
+.fs-card__order-btn:hover { background: #27ae60; }

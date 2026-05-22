@@ -56,10 +56,10 @@
                         </td>
                         <td th:text="${user.phoneNumber}" style="color:var(--gray-4);">+998 90 000 00 00</td>
                         <td>
-                            <span th:if="${user.role == null}" class="fs-badge fs-badge--gray">ROL YO'Q</span>
-                            <span th:if="${user.role?.name() == 'ADMIN'}" class="fs-badge fs-badge--red">ADMIN</span>
-                            <span th:if="${user.role?.name() == 'YETKAZUVCHI'}" class="fs-badge fs-badge--orange">YETKAZUVCHI</span>
-                            <span th:if="${user.role?.name() == 'FOYDALANUVCHI'}" class="fs-badge fs-badge--green">FOYDALANUVCHI</span>
+                            <span th:if="${user.roleName == null}" class="fs-badge fs-badge--gray">ROL YO'Q</span>
+                            <span th:if="${user.roleName == 'ADMIN'}" class="fs-badge fs-badge--red">ADMIN</span>
+                            <span th:if="${user.roleName == 'YETKAZUVCHI'}" class="fs-badge fs-badge--orange">YETKAZUVCHI</span>
+                            <span th:if="${user.roleName == 'FOYDALANUVCHI'}" class="fs-badge fs-badge--green">FOYDALANUVCHI</span>
                         </td>
                         <td style="text-align:right;">
                             <div style="display:flex; justify-content:flex-end; gap:8px;">

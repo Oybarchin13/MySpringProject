@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import uz.pdp.foodswift.model.dto.AuthUserRegisterDto;
-import uz.pdp.foodswift.model.entity.AuthUsers;
-import uz.pdp.foodswift.model.entity.enums.Roles;
 import uz.pdp.foodswift.service.AuthUserService;
 
 @Controller

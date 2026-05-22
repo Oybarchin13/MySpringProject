@@ -2,9 +2,12 @@
 <html lang="uz" xmlns:th="http://www.thymeleaf.org">
 <head><meta charset="UTF-8"></head>
 <body>
+
+
 <div th:fragment="menu-section" class="fs-section">
     <h2 class="fs-section-title">Barcha taomlar</h2>
 
+    <!-- Kategoriya chiplari -->
     <div class="fs-cats">
         <div class="fs-chip active" data-category="ALL">🍽️ Barchasi</div>
         <div class="fs-chip" data-category="SALADS">🥗 Salatlar</div>
@@ -20,16 +23,19 @@
         <div class="fs-chip" data-category="SWEETS">🍰 Shirinliklar</div>
     </div>
 
+    <!-- Taom kartochalari -->
     <div class="fs-cards" id="food-container">
         <div th:each="food : ${foods}"
              th:data-cat="${food.category.name()}"
              class="fs-card">
+
             <div class="fs-card__img-wrap">
                 <img class="fs-card__img" th:src="${food.imgUrl}" alt="Taom rasmi">
                 <button class="fs-card__fav">
                     <i class='bx bx-heart'></i>
                 </button>
             </div>
+
             <div class="fs-card__body">
                 <h3 class="fs-card__name" th:text="${food.foodName}">Taom nomi</h3>
                 <div class="fs-card__row">
@@ -38,41 +44,45 @@
                         <span>so'm</span>
                     </div>
                 </div>
+
+                <!--
+                    "Buyurtma berish" tugmasi.
+                    data-* atributlari orqali modal ga ma'lumot uzatiladi.
+                    th:attr — bir nechta data atributlarini bir joyda yozish uchun.
+                -->
+                <button class="fs-card__order-btn"
+                        th:attr="
+                            data-id=${food.id},
+                            data-name=${food.foodName},
+                            data-price=${food.price},
+                            data-img=${food.imgUrl}
+                        "
+                        onclick="fsOpenModal(this)">
+                    <i class='bx bx-cart-add'></i> Buyurtma berish
+                </button>
             </div>
         </div>
     </div>
 
+    <!-- Bo'sh holat -->
     <div id="no-foods-msg" class="fs-empty" style="display:none;">
         <i class='bx bx-dish'></i>
         <p>Bu kategoriyada hozircha taom yo'q.</p>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var chips = document.querySelectorAll(".fs-chip");
-            var cards = document.querySelectorAll(".fs-card");
-            var noMsg = document.getElementById("no-foods-msg");
-
-            chips.forEach(function(chip) {
-                chip.addEventListener("click", function () {
-                    chips.forEach(function(c) { c.classList.remove("active"); });
-                    this.classList.add("active");
-
-                    var cat = this.getAttribute("data-category");
-                    var count = 0;
-                    cards.forEach(function(card) {
-                        if (cat === "ALL" || card.getAttribute("data-cat") === cat) {
-                            card.style.display = "flex";
-                            count++;
-                        } else {
-                            card.style.display = "none";
-                        }
-                    });
-                    noMsg.style.display = count > 0 ? "none" : "flex";
-                });
-            });
-        });
-    </script>
 </div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MODAL OYNA
+     Fragment ichida yozilgan — boshqa sahifaga tegmaydi.
+     Ixtiyoriy: bu qismni <body> ning pastiga ko'chirish mumkin,
+     lekin fragment ichida ham to'g'ri ishlaydi.
+     ═══════════════════════════════════════════════════════════════ -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════════════════ -->
+
+
 </body>
 </html>

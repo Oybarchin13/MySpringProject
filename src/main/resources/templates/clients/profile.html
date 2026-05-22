@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="uz" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilni Tahrirlash - FoodSwift</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .card {
+            max-width: 450px;
+            margin: 40px auto;
+        }
+        .info-note {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="food-float fc-1"><div class="emoji">🍔</div><span>Burger</span></div>
+<div class="food-float fc-2"><div class="emoji">🍕</div><span>Pizza</span></div>
+<div class="food-float fc-3"><div class="emoji">🥗</div><span>Salat</span></div>
+<div class="food-float fc-4"><div class="emoji">🥤</div><span>Drinks</span></div>
+<div class="food-float fc-5"><div class="emoji">🍜</div><span>Lag'mon</span></div>
+<div class="food-float fc-6"><div class="emoji">🍰</div><span>Desert</span></div>
+
+<div class="card">
+
+    <div class="logo-wrap">
+        <div class="logo-row">
+            <div class="logo-icon">👤</div>
+            <span class="logo-name">Profilim</span>
+        </div>
+        <span class="logo-sub">Ma'lumotlarni tahrirlash</span>
+    </div>
+
+    <div th:if="${successMessage}" class="alert alert--success">
+        <i class='bx bx-check-circle'></i>
+        <span th:text="${successMessage}">Ma'lumotlar yangilandi!</span>
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert--error">
+        <i class='bx bx-error-circle'></i>
+        <span th:text="${errorMessage}">Xatolik yuz berdi!</span>
+    </div>
+
+    <form th:action="@{/profile/update}" method="POST">
+
+        <div class="field">
+            <label for="fullName">Ism-sharif</label>
+            <div class="input-wrap">
+                <input type="text" id="fullName" name="fullName" th:value="${fullName}" required placeholder="Ismingizni kiriting">
+                <i class='bx bx-user'></i>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="phoneNumber">Telefon raqam</label>
+            <div class="input-wrap">
+                <input type="tel" id="phoneNumber" name="phoneNumber" th:value="${phoneNumber}" required placeholder="+998 90 123 45 67">
+                <i class='bx bx-phone'></i>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="newPassword">Yangi Parol</label>
+            <div class="input-wrap">
+                <input type="password" id="newPassword" name="newPassword" placeholder="O'zgartirmoqchi bo'lsangiz yozing">
+                <i class='bx bx-lock-alt'></i>
+                <button type="button" class="eye-toggle" onclick="togglePwd('newPassword', this)">
+                    <i class='bx bx-hide'></i>
+                </button>
+            </div>
+            <span class="info-note">Parol o'zgarmasligi uchun bu joyni bo'sh qoldirishingiz mumkin.</span>
+        </div>
+
+        <button type="submit" class="btn-submit">
+            <i class='bx bx-save'></i> O'zgarishlarni saqlash
+        </button>
+    </form>
+
+    <div class="card-footer">
+        <a th:href="@{/}"><i class='bx bx-arrow-back'></i> Bosh sahifaga qaytish</a>
+    </div>
+</div>
+
+<script>
+    function togglePwd(inputId, btn) {
+        var inp = document.getElementById(inputId);
+        var icon = btn.querySelector('i');
+        if (inp.type === 'password') {
+            inp.type = 'text';
+            icon.className = 'bx bx-show';
+        } else {
+            inp.type = 'password';
+            icon.className = 'bx bx-hide';
+        }
+    }
+</script>
+</body>
+</html>

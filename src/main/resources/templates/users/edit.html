@@ -28,31 +28,34 @@
                 </div>
             </div>
 
-            <div th:if="${errorMessage}" class="fs-alert fs-alert--error">
+            <div th:if="${errorMessage}" class="fs-alert fs-alert--error" style="margin-bottom: 20px;">
                 <i class='bx bx-error-circle'></i>
                 <span th:text="${errorMessage}">Xatolik yuz berdi.</span>
             </div>
 
             <div class="fs-panel">
-                <form th:action="@{/users/{id}/edit(id=${id})}" th:object="${userSaveDto}" method="POST">
+                <form th:object="${userSaveDto}" method="POST">
                     <div class="fs-panel__body">
+
                         <div class="fs-field">
                             <label class="fs-label">To'liq ismi</label>
                             <input type="text" th:field="*{fullName}" class="fs-input" required>
                         </div>
+
                         <div class="fs-field">
                             <label class="fs-label">Telefon raqami</label>
                             <input type="text" th:field="*{phoneNumber}" class="fs-input" required>
                         </div>
+
                         <div class="fs-field">
-                            <label class="fs-label">Yangi Parol (Ixtiyoriy)</label>
-                            <input type="password" th:field="*{password}" class="fs-input"
-                                   placeholder="O'zgarishsiz qoldirish uchun bo'sh qo'ying">
+                            <label class="fs-label">Parol (O'zgartirilmasa, bo'sh qoldiring)</label>
+                            <input type="password" th:field="*{password}" class="fs-input">
                         </div>
+
                         <div class="fs-field" style="margin-bottom:0;">
                             <label class="fs-label">Tizimdagi roli</label>
                             <div class="fs-select-wrap">
-                                <select th:field="*{role}" class="fs-select">
+                                <select th:field="*{roleName}" class="fs-select">
                                     <option value="ADMIN">ADMIN</option>
                                     <option value="YETKAZUVCHI">YETKAZUVCHI</option>
                                     <option value="FOYDALANUVCHI">FOYDALANUVCHI</option>
@@ -60,11 +63,13 @@
                                 <i class='bx bx-chevron-down'></i>
                             </div>
                         </div>
+
                     </div>
-                    <div class="fs-panel__footer">
+
+                    <div class="fs-panel__footer" style="margin-top: 24px;">
                         <a th:href="@{/users}" class="fs-btn fs-btn--danger-ghost">Bekor qilish</a>
                         <button type="submit" class="fs-btn fs-btn--primary">
-                            <i class='bx bx-save'></i> Yangilash
+                            <i class='bx bx-check'></i> Yangilash
                         </button>
                     </div>
                 </form>
@@ -73,5 +78,7 @@
         </div>
     </div>
 </main>
+
+<script src="/js/main.js"></script>
 </body>
 </html>

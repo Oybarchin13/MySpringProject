@@ -1,20 +1,26 @@
 package uz.pdp.foodswift.model.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import lombok.*;
-import uz.pdp.foodswift.model.entity.enums.Roles;
+
+import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class AuthUserDto {
+
     private String id;
     private String fullName;
     private String phoneNumber;
     private String password;
-    private Roles role;
+
+    // Eski: private Roles role;  (enum)
+    // Yangi: rolni String sifatida — "ADMIN", "FOYDALANUVCHI"
+    // Yoki RoleDto sifatida — permission larni ham ko'rsatish kerak bo'lsa
+    private String roleName;
+
+    // Ixtiyoriy: Agar UI da permission larni ham ko'rsatish kerak bo'lsa
+     private List<String> permissions;
 }
